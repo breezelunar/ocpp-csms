@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}ID Tags — OCPP CSMS{% endblock %}
+
+{% block content %}
+<h1>ID Tags</h1>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID Tag</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tag in id_tags %}
+            <tr>
+                <td>{{ tag._id }}</td>
+                <td>
+                    <span class="badge badge-{{ tag.status | lower }}">{{ tag.status }}</span>
+                </td>
+                <td>
+                    <a
+                        href="/api/id-tags/{{ tag._id }}"
+                        class="btn btn-danger"
+                        data-confirm="Delete ID tag {{ tag._id }}?"
+                        onclick="deleteTag(event, '{{ tag._id }}')"
+                    >Delete</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="text-align:center;color:#888;">No ID tags found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2>Add ID Tag</h2>
+<form id="add-tag-form" style="display:flex;gap:.75rem;align-items:flex-end;margin-top:.5rem;">
+    <div>
+        <label for="id_tag" style="display:block;margin-bottom:.25rem;font-size:.85rem;">ID Tag</label>
+        <input
+            id="id_tag"
+            name="id_tag"
+            type="text"
+            placeholder="e.g. RFID-001"
+            required
+            style="padding:.45rem .75rem;border:1px solid #ccc;border-radius:4px;font-size:.9rem;"
+        />
+    </div>
+    <div>
+        <label for="status" style="display:block;margin-bottom:.25rem;font-size:.85rem;">Status</label>
+        <select
+            id="status"
+            name="status"
+            style="padding:.45rem .75rem;border:1px solid #ccc;border-radius:4px;font-size:.9rem;"
+        >
+            <option value="Accepted">Accepted</option>
+            <option value="Blocked">Blocked</option>
+            <option value="Invalid">Invalid</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Tag</button>
+</form>
+
+<script>
+(function () {
+    document.getElementById("add-tag-form").addEventListener("submit", async function (evt) {
+        evt.preventDefault();
+        const id_tag = document.getElementById("id_tag").value.trim();
+        const status = document.getElementById("status").value;
+        if (!id_tag) return;
+        const res = await fetch("/api/id-tags", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id_tag, status }),
+        });
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            const err = await res.json();
+            alert("Error: " + (err.detail || "Unknown error"));
+        }
+    });
+}());
+
+async function deleteTag(evt, idTag) {
+    evt.preventDefault();
+    const msg = evt.currentTarget.getAttribute("data-confirm") || "Are you sure?";
+    if (!window.confirm(msg)) return;
+    const res = await fetch("/api/id-tags/" + encodeURIComponent(idTag), { method: "DELETE" });
+    if (res.ok || res.status === 204) {
+        window.location.reload();
+    } else {
+        alert("Failed to delete ID tag.");
+    }
+}
+</script>
+{% endblock %}

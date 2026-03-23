@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Overview — OCPP CSMS{% endblock %}
+
+{% block content %}
+<h1>Overview</h1>
+
+<div class="cards">
+    <div class="card">
+        <div class="value">{{ charge_points | length }}</div>
+        <div class="label">Charge Points</div>
+    </div>
+    <div class="card">
+        <div class="value">
+            {{ charge_points | selectattr("status", "equalto", "Available") | list | length }}
+        </div>
+        <div class="label">Available</div>
+    </div>
+    <div class="card">
+        <div class="value">{{ transactions | length }}</div>
+        <div class="label">Recent Transactions</div>
+    </div>
+    <div class="card">
+        <div class="value">{{ id_tags | length }}</div>
+        <div class="label">ID Tags</div>
+    </div>
+</div>
+
+<h2>Recent Transactions</h2>
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Charge Point</th>
+                <th>Connector</th>
+                <th>ID Tag</th>
+                <th>Started</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in transactions %}
+            <tr>
+                <td>{{ tx._id }}</td>
+                <td>{{ tx.charge_point_id }}</td>
+                <td>{{ tx.connector_id }}</td>
+                <td>{{ tx.id_tag }}</td>
+                <td>
+                    <span data-timestamp="{{ tx.start_time }}">{{ tx.start_time }}</span>
+                </td>
+                <td>
+                    <span class="badge badge-{{ tx.status | lower }}">{{ tx.status }}</span>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" style="text-align:center;color:#888;">No transactions yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

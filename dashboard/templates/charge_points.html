@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Charge Points — OCPP CSMS{% endblock %}
+
+{% block content %}
+<h1>Charge Points</h1>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vendor</th>
+                <th>Model</th>
+                <th>Status</th>
+                <th>Last Boot</th>
+                <th>Last Seen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cp in charge_points %}
+            <tr>
+                <td>{{ cp._id }}</td>
+                <td>{{ cp.vendor | default("—") }}</td>
+                <td>{{ cp.model | default("—") }}</td>
+                <td>
+                    <span class="badge badge-{{ cp.status | lower | default('available') }}">
+                        {{ cp.status | default("Unknown") }}
+                    </span>
+                </td>
+                <td>
+                    <span data-timestamp="{{ cp.last_boot }}">{{ cp.last_boot | default("—") }}</span>
+                </td>
+                <td>
+                    <span data-timestamp="{{ cp.last_seen }}">{{ cp.last_seen | default("—") }}</span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align:center;color:#888;">
+                    No charge points connected yet.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

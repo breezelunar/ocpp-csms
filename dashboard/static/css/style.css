@@ -1,0 +1,149 @@
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Navigation ───────────────────────────────────────────────────────────── */
+nav {
+    background: #1a73e8;
+    color: #fff;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 56px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+nav .brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #fff;
+    margin-right: 2rem;
+    letter-spacing: .5px;
+}
+
+nav a {
+    color: rgba(255,255,255,.85);
+    text-decoration: none;
+    padding: 0 .75rem;
+    line-height: 56px;
+    font-size: .9rem;
+    transition: color .15s;
+}
+
+nav a:hover, nav a.active { color: #fff; border-bottom: 3px solid #fff; }
+
+/* ── Main content ─────────────────────────────────────────────────────────── */
+main {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+h1, h2 { margin-bottom: 1rem; color: #1a73e8; }
+
+/* ── Summary cards ────────────────────────────────────────────────────────── */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    text-align: center;
+}
+
+.card .value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a73e8;
+}
+
+.card .label {
+    margin-top: .25rem;
+    font-size: .85rem;
+    color: #666;
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────────── */
+.table-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+}
+
+thead { background: #1a73e8; color: #fff; }
+thead th { padding: .75rem 1rem; text-align: left; font-weight: 600; }
+
+tbody tr { border-bottom: 1px solid #e8eaed; transition: background .1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f5f8ff; }
+tbody td { padding: .7rem 1rem; }
+
+/* ── Status badges ────────────────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: .2rem .6rem;
+    border-radius: 12px;
+    font-size: .78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.badge-available  { background: #e6f4ea; color: #1e8e3e; }
+.badge-charging   { background: #e8f0fe; color: #1a73e8; }
+.badge-faulted    { background: #fce8e6; color: #d93025; }
+.badge-active     { background: #e8f0fe; color: #1a73e8; }
+.badge-completed  { background: #e6f4ea; color: #1e8e3e; }
+.badge-accepted   { background: #e6f4ea; color: #1e8e3e; }
+.badge-invalid    { background: #fce8e6; color: #d93025; }
+.badge-blocked    { background: #fce8e6; color: #d93025; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.btn {
+    display: inline-block;
+    padding: .45rem .9rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity .15s;
+}
+
+.btn:hover { opacity: .85; }
+.btn-primary { background: #1a73e8; color: #fff; }
+.btn-danger  { background: #d93025; color: #fff; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: .8rem;
+    color: #888;
+}
