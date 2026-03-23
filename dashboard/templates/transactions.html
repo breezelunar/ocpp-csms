@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Transactions — OCPP CSMS{% endblock %}
+
+{% block content %}
+<h1>Transactions</h1>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Charge Point</th>
+                <th>Connector</th>
+                <th>ID Tag</th>
+                <th>Meter Start (Wh)</th>
+                <th>Meter Stop (Wh)</th>
+                <th>Started</th>
+                <th>Stopped</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in transactions %}
+            <tr>
+                <td>{{ tx._id }}</td>
+                <td>{{ tx.charge_point_id }}</td>
+                <td>{{ tx.connector_id }}</td>
+                <td>{{ tx.id_tag }}</td>
+                <td>{{ tx.meter_start | default("—") }}</td>
+                <td>{{ tx.meter_stop | default("—") }}</td>
+                <td>
+                    <span data-timestamp="{{ tx.start_time }}">{{ tx.start_time | default("—") }}</span>
+                </td>
+                <td>
+                    <span data-timestamp="{{ tx.stop_time }}">{{ tx.stop_time | default("—") }}</span>
+                </td>
+                <td>
+                    <span class="badge badge-{{ tx.status | lower }}">{{ tx.status }}</span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9" style="text-align:center;color:#888;">No transactions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
